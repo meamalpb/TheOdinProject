@@ -1,0 +1,177 @@
+Numbers
+
+Change of datatypes
+13.to_f   #=> 13.0
+13.0.to_i #=> 13
+
+It’s important to keep in mind that when doing arithmetic with two integers in Ruby, the result will always be an integer.
+17 / 5    #=> 3, not 3.4
+
+Strings
+
+Concatenation
+"Welcome " + "to " + "Odin!"    #=> "Welcome to Odin!"
+"Welcome " << "to " << "Odin!"  #=> "Welcome to Odin!"
+"Welcome ".concat("to ").concat("Odin!")  #=> "Welcome to Odin!"
+
+Substrings
+"hello"[0]      #=> "h"
+"hello"[0..1]   #=> "he"
+"hello"[0, 4]   #=> "hell"
+"hello"[-1]     #=> "o"
+
+
+Interpolation
+name = "Odin"
+puts "Hello, #{name}" #=> "Hello, Odin"
+puts 'Hello, #{name}' #=> "Hello, #{name}"
+
+
+#include?
+"hello".include?("lo")  #=> true
+"hello".include?("z")   #=> false
+
+#reverse
+"hello".reverse  #=> "olleh"
+
+#split
+"hello world".split  #=> ["hello", "world"]
+"hello".split("")    #=> ["h", "e", "l", "l", "o"]
+
+#strip
+" hello, world   ".strip  #=> "hello, world"
+
+"he77o".sub("7", "l")           #=> "hel7o"
+"he77o".gsub("7", "l")          #=> "hello"
+"hello".insert(-1, " dude")     #=> "hello dude"
+"hello world".delete("l")       #=> "heo word"
+"!".prepend("hello, ", "world") #=> "hello, world!"
+
+Converting other objects to strings
+5.to_s        #=> "5"
+nil.to_s      #=> ""
+:symbol.to_s  #=> "symbol"
+
+Symbols
+
+Strings can be changed, so every time a string is used, Ruby has to store it in memory even if an existing string with the same value already exists. 
+Symbols, on the other hand, are stored in memory only once, making them faster in certain situations.
+
+Create a Symbol
+To create a symbol, simply put a colon at the beginning of some text:
+
+:my_symbol
+
+Input And Output
+
+puts and print
+
+irb(main):001:0> print "Hello World"; print "I love drinking coffee"
+Hello WorldI love drinking coffee
+=> nil
+
+irb(main):002:0> puts "Hello World"; puts "I love drinking coffee"
+Hello World
+I love drinking coffee
+=> nil
+
+gets
+
+puts "Enter a value :"
+val = gets
+puts val
+
+Enter a value :
+This is entered value
+This is entered value
+
+Files
+
+File.new
+create a File object using File.new method for reading, writing, or both, according to the mode string. Finally, you can use File.close method to close that file.
+aFile = File.new("filename", "mode")
+   # ... process the file
+aFile.close
+
+File.open
+You can use File.open method to create a new file object and assign that file object to a file.
+File.open("filename", "mode") do |aFile|
+   # ... process the file
+end
+
+sysread
+This statement will output the first 20 characters of the file. The file pointer will now be placed at the 21st character in the file.
+aFile = File.new("input.txt", "r")
+if aFile
+   content = aFile.sysread(20)
+   puts content
+else
+   puts "Unable to open file!"
+end
+
+syswrite
+statement will write "ABCDEF" into the file.
+aFile = File.new("input.txt", "r+")
+if aFile
+   aFile.syswrite("ABCDEF")
+else
+   puts "Unable to open file!"
+end
+
+IO.readlines
+In this code, the variable arr is an array. Each line of the file input.txt will be an element in the array arr. Therefore, arr[0] will contain the first line, whereas arr[1] will contain the second line of the file.
+arr = IO.readlines("input.txt")
+puts arr[0]
+puts arr[1]
+
+Directories
+
+chdir
+To change directory within a Ruby program, use Dir.chdir as follows. This example changes the current directory to /usr/bin.
+Dir.chdir("/usr/bin")
+
+
+pwd
+puts Dir.pwd # This will return something like /usr/bin
+
+entries
+You can get a list of the files and directories within a specific directory using Dir.entries
+puts Dir.entries("/usr/bin").join(' ')
+
+Conditionals
+
+Basic example
+
+if attack_by_land == true
+  puts "release the goat"
+elsif attack_by_sea == true
+  puts "release the shark"
+else
+  puts "release Kevin the octopus"
+end
+
+#eql? 
+checks both the value type and the actual value it holds.
+5.eql?(5.0) #=> false; although they are the same value, one is an integer and the other is a float
+5.eql?(5)   #=> true
+
+
+#equal? 
+checks whether both values are the exact same object in memory. This can be slightly confusing because of the way computers store some values for efficiency. Two variables pointing to the same number will usually return true.
+a = 5
+b = 5
+a.equal?(b) #=> true
+
+a = "hello"
+b = "hello"
+a.equal?(b) #=> false
+
+spaceship operator
+<=> (spaceship operator) returns the following:
+-1 if the value on the left is less than the value on the right;
+0 if the value on the left is equal to the value on the right; and
+1 if the value on the left is greater than the value on the right.
+5 <=> 10    #=> -1
+10 <=> 10   #=> 0
+10 <=> 5    #=> 1
+
