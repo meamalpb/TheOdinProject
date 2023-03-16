@@ -52,6 +52,20 @@ Converting other objects to strings
 nil.to_s      #=> ""
 :symbol.to_s  #=> "symbol"
 
+chomp(separator=$/) → new_str
+Returns a new String with the given record separator removed from the end of str (if present). If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return characters (that is it will remove \n, \r, and \r\n). If $/ is an empty string, it will remove all trailing newlines from the string.
+
+"hello".chomp                #=> "hello"
+"hello\n".chomp              #=> "hello"
+"hello\r\n".chomp            #=> "hello"
+"hello\n\r".chomp            #=> "hello\n"
+"hello\r".chomp              #=> "hello"
+"hello \n there".chomp       #=> "hello \n there"
+"hello".chomp("llo")         #=> "he"
+"hello\r\n\r\n".chomp('')    #=> "hello"
+"hello\r\n\r\r\n".chomp('')  #=> "hello\r\n\r"
+
+
 Symbols
 
 Strings can be changed, so every time a string is used, Ruby has to store it in memory even if an existing string with the same value already exists. 
@@ -76,6 +90,8 @@ I love drinking coffee
 => nil
 
 gets
+
+gets creates a new line and asks the user to input something, and gets.chomp does the same thing except that it does not create a new line
 
 puts "Enter a value :"
 val = gets
@@ -166,7 +182,7 @@ a = "hello"
 b = "hello"
 a.equal?(b) #=> false
 
-spaceship operator
+Spaceship operator
 <=> (spaceship operator) returns the following:
 -1 if the value on the left is less than the value on the right;
 0 if the value on the left is equal to the value on the right; and
@@ -174,4 +190,84 @@ spaceship operator
 5 <=> 10    #=> -1
 10 <=> 10   #=> 0
 10 <=> 5    #=> 1
+
+And and Or
+if 1 < 2 && 5 < 6
+  puts "Party at Kevin's!"
+end
+
+# This can also be written as
+if 1 < 2 and 5 < 6
+  puts "Party at Kevin's!"
+end
+
+Case statement
+grade = 'F'
+did_i_pass = case grade #=> create a variable `did_i_pass` and assign the result of a call to case with the variable grade passed in
+  when 'A' then "Hell yeah!"
+  when 'D' then "Don't tell your mother."
+  else "'YOU SHALL NOT PASS!' -Gandalf"
+end
+
+Unless
+An unless statement works in the opposite way as an if statement: it only processes the code in the block if the expression evaluates to false. There isn’t much more to it.
+age = 19
+unless age < 18
+  puts "Get a job."
+end
+
+Ternary
+age = 19
+response = age < 18 ? "You still have your entire life ahead of you." : "You're all grown up."
+puts response #=> "You're all grown up."
+
+Loops
+
+Loop
+Not used that much
+i = 0
+loop do
+  puts "i is #{i}"
+  i += 1
+  break if i == 10
+end
+
+While Loop
+i = 0
+while i < 10 do
+ puts "i is #{i}"
+ i += 1
+end
+
+
+Until
+reverse of while
+i = 0
+until i >= 10 do
+ puts "i is #{i}"
+ i += 1
+end
+
+Ranges
+(1..5)      # inclusive range: 1, 2, 3, 4, 5
+(1...5)     # exclusive range: 1, 2, 3, 4
+('a'..'d')  # a, b, c, d
+
+For loop
+for i in 0..5
+  puts "#{i} zombies incoming!"
+end
+
+Times Loop
+5.times do
+  puts "Hello, world!"
+end
+
+5.times do |number|
+  puts "Alternative fact number #{number}"
+end
+
+Upto and Downto Loops
+5.upto(10) {|num| print "#{num} " }     #=> 5 6 7 8 9 10
+10.downto(5) {|num| print "#{num} " }   #=> 10 9 8 7 6 5
 
