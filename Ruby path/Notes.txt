@@ -327,3 +327,77 @@ join
 
 enumerate
 users.each_with_index { |item, idx| puts "#{item} with index #{idx}" }
+
+Hash
+
+declaration
+my_hash = {
+  "a random word" => "ahoy",
+  "Dorothy's math test score" => 94,
+  "an array" => [1, 2, 3],
+  "an empty hash within a hash" => {}
+}
+
+accessing
+my_hash["an array"] #=>[1, 2, 3]
+If you try to access a key that doesn’t exist in the hash, it will return nil:
+my_hash["hiking"]   #=> nil
+
+similar to get in python
+hashes have a fetch method that will raise an error when you try to access a key that is not in your hash.
+shoes.fetch("hiking")   #=> KeyError: key not found: "hiking"
+Alternatively, this method can return a default value instead of raising an error if the given key is not found.
+shoes.fetch("hiking", "hiking boots") #=> "hiking boots"
+
+adding and changing data
+shoes = {
+  "summer" => "sandals",
+  "winter" => "boots"
+  }
+shoes["fall"] = "sneakers"
+shoes     #=> {"summer"=>"sandals", "winter"=>"boots", "fall"=>"sneakers"}
+You can also use this approach to change the value of an existing key.
+shoes["summer"] = "flip-flops"
+
+removing
+shoes.delete("summer") 
+
+getting keys and values list
+books = {
+  "Infinite Jest" => "David Foster Wallace",
+  "Into the Wild" => "Jon Krakauer"
+}
+
+books.keys      #=> ["Infinite Jest", "Into the Wild"]
+books.values    #=> ["David Foster Wallace", "Jon Krakauer"]
+
+merging hashes
+hash1 = { "a" => 100, "b" => 200 }
+hash2 = { "b" => 254, "c" => 300 }
+hash1.merge(hash2)      #=> { "a" => 100, "b" => 254, "c" => 300 }
+one in bracket has priority
+
+symbols as keys provide more performant and cleaner syntax
+
+# 'Rocket' syntax
+american_cars = {
+  :chevrolet => "Corvette",
+  :ford => "Mustang",
+  :dodge => "Ram"
+}
+
+the below syntax can only be used when using symbols as keys
+# 'Symbols' syntax
+japanese_cars = {
+  honda: "Accord",
+  toyota: "Corolla",
+  nissan: "Altima"
+}
+u need to put :before while giving symbols as keys
+american_cars[:ford]    #=> "Mustang"
+japanese_cars[:honda]   #=> "Accord"
+
+
+
+Methods
+
