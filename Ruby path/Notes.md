@@ -86,10 +86,11 @@ nil.to_s      #=> ""
 ```
 chomp(separator=$/) → new_str
 ```
+```rb
+#Returns a new String with the given record separator removed from the end of str (if present). 
+#If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return #characters (that is it will remove \n, \r, and \r\n). 
+#If $/ is an empty string, it will remove all trailing newlines from the string.
 
-**Returns a new String with the given record separator removed from the end of str (if present). If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return characters (that is it will remove \n, \r, and \r\n). If $/ is an empty string, it will remove all trailing newlines from the string.**
-
- ```rb
 "hello".chomp                #=> "hello"
 "hello\n".chomp              #=> "hello"
 "hello\r\n".chomp            #=> "hello"
