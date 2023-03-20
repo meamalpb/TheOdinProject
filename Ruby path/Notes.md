@@ -674,3 +674,301 @@ prycheck.rb:10 Object#yell_greeting:
 => "WASSAP, BOB!"
 ```
 
+# Basic Enumerable Methods
+## The each Method
+
+**Calling #each on an array will iterate through that array and will yield each element to a code block, where a task can be performed:**
+```rb
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+friends.each { |friend| puts "Hello, " + friend }
+
+#=> Hello, Sharon
+#=> Hello, Leo
+#=> Hello, Leila
+#=> Hello, Brian
+#=> Hello, Arun
+
+#=> ["Sharon", "Leo", "Leila", "Brian" "Arun"]
+```
+
+```rb { |friend| puts "Hello, " + friend } ``` **is a block, and the code inside this block is run for each element in your array. Because we have 5 friends in our array, this block will be run 5 times, once with each of the 5 elements.**
+
+```rb
+#when the operation has logic and not just select everything
+my_array = [1, 2]
+
+my_array.each do |num|
+  num *= 2
+  puts "The new number is #{num}."
+end
+
+#=> The new number is 2.
+#=> The new number is 4.
+
+#=> [1, 2]
+```
+
+**Each can also be used with hash in the below way**
+```rb
+my_hash = { "one" => 1, "two" => 2 }
+
+my_hash.each { |key, value| puts "#{key} is #{value}" }
+
+one is 1
+two is 2
+#=> { "one" => 1, "two" => 2}
+
+my_hash.each { |pair| puts "the pair is #{pair}" }
+
+the pair is ["one", 1]
+the pair is ["two", 2]
+#=> { "one" => 1, "two" => 2}
+```
+
+## The each_with_index Method
+```rb
+fruits = ["apple", "banana", "strawberry", "pineapple"]
+
+fruits.each_with_index { |fruit, index| puts fruit if index.even? }
+
+#=> apple
+#=> strawberry
+#=> ["apple", "banana", "strawberry", "pineapple"]
+```
+
+## The map Method
+```rb
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+friends.map { |friend| friend.upcase }
+#=> `['SHARON', 'LEO', 'LEILA', 'BRIAN', 'ARUN']`
+my_order = ['medium Big Mac', 'medium fries', 'medium milkshake']
+
+my_order.map { |item| item.gsub('medium', 'extra large') }
+#=> ["extra large Big Mac", "extra large fries", "extra large milkshake"]
+```
+
+## The select Method
+
+**The #select method (also called #filter) passes every item in an array to a block and returns a new array with only the items for which the condition you set in the block evaluated to true.**
+```rb
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+friends.select { |friend| friend != 'Brian' }
+
+ #=> ["Sharon", "Leo", "Leila", "Arun"]
+
+responses = { 'Sharon' => 'yes', 'Leo' => 'no', 'Leila' => 'no', 'Arun' => 'yes' }
+responses.select { |person, response| response == 'yes'}
+#=> {"Sharon"=>"yes", "Arun"=>"yes"}
+
+ ```
+# The reduce Method
+**it reduces an array or hash down to a single object. You should use #reduce when you want to get an output of a single value.**
+
+*Same code using #each and #reduce*
+```rb
+my_numbers = [5, 6, 7, 8]
+sum = 0
+
+my_numbers.each { |number| sum += number }
+
+sum
+#=> 26
+```
+
+```rb
+my_numbers = [5, 6, 7, 8]
+
+my_numbers.reduce { |sum, number| sum + number }
+#=> 26
+```
+
+**The first block variable in the #reduce enumerable (sum in this example) is known as the accumulator. The result of each iteration is stored in the accumulator and then passed to the next iteration. The accumulator is also the value that the #reduce method returns at the end of its work. By default, the initial value of the accumulator is the first element in the collection, so for each step of the iteration, we would have the following:**
+
+```
+Iteration 0: sum = 5 + 6 = 11
+Iteration 1: sum = 11 + 7 = 18
+Iteration 2: sum = 18 + 8 = 26
+```
+
+```rb
+votes = ["Bob's Dirty Burger Shack", "St. Mark's Bistro", "Bob's Dirty Burger Shack"]
+
+votes.reduce(Hash.new(0)) do |result, vote|
+  result[vote] += 1
+  result
+end
+#=> {"Bob's Dirty Burger Shack"=>2, "St. Mark's Bistro"=>1}
+```
+
+# Bang methods with enumerable methods
+
+**without bang**
+```rb
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+friends.map { |friend| friend.upcase }
+#=> `['SHARON', 'LEO', 'LEILA', 'BRIAN', 'ARUN']`
+
+friends
+#=> ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+```
+**with bang**
+```rb
+friends = ['Sharon', 'Leo', 'Leila', 'Brian', 'Arun']
+
+friends.map! { |friend| friend.upcase }
+#=> `['SHARON', 'LEO', 'LEILA', 'BRIAN', 'ARUN']`
+
+friends
+#=> `['SHARON', 'LEO', 'LEILA', 'BRIAN', 'ARUN']`
+```
+
+# Predicate Enumerable Methods
+## The include? Method
+```rb
+numbers = [5, 6, 7, 8]
+
+numbers.include?(6)
+#=> true
+
+numbers.include?(3)
+#=> false
+```
+
+## any?
+```rb
+numbers = [21, 42, 303, 499, 550, 811]
+
+numbers.any? { |number| number > 500 }
+#=> true
+
+numbers.any? { |number| number < 20 }
+#=> false
+```
+
+# all?
+
+```rb
+fruits = ["apple", "banana", "strawberry", "pineapple"]
+
+fruits.all? { |fruit| fruit.length > 3 }
+#=> true
+
+fruits.all? { |fruit| fruit.length > 6 }
+#=> false
+```
+
+# none?
+```rb
+fruits = ["apple", "banana", "strawberry", "pineapple"]
+
+fruits.none? { |fruit| fruit.length > 10 }
+#=> true
+
+fruits.none? { |fruit| fruit.length > 6 }
+#=> false
+```
+
+# Nester collections
+
+## Nested Arrays
+
+```rb
+
+teacher_mailboxes = [
+  ["Adams", "Baker", "Clark", "Davis"],
+  ["Jones", "Lewis", "Lopez", "Moore"],
+  ["Perez", "Scott", "Smith", "Young"]
+]
+
+teacher_mailboxes[0][0]
+#=> "Adams"
+teacher_mailboxes[1][0]
+#=> "Jones"
+teacher_mailboxes[2][0]
+#=> "Perez"
+
+teacher_mailboxes[0][-1]
+#=> "Davis"
+teacher_mailboxes[-1][0]
+#=> "Perez"
+teacher_mailboxes[-1][-2]
+#=> "Smith"
+```
+**If you try to access an index of a nonexistent nested element, it will raise an NoMethodError, because the nil class does not have a [] method. However, just like a regular array, if you try to access a nonexistent index inside of an existing nested element, it will return nil.**
+
+```rb
+teacher_mailboxes[3][0]
+#=> NoMethodError
+teacher_mailboxes[0][4]
+#=> nil
+```
+
+**If you want a nil value returned when trying to access an index of a nonexistent nested element, you can use the #dig method. This method can also be used when accessing a nonexistent index inside of an existing nested element.**
+```rb
+teacher_mailboxes.dig(3, 0)
+#=> nil
+teacher_mailboxes.dig(0, 4)
+#=> nil
+```
+
+## creation
+```rb
+mutable = Array.new(3, Array.new(2))
+#=> [[nil, nil], [nil, nil], [nil, nil]]
+mutable[0][0] = 1000
+#=> 1000
+mutable
+#=> [[1000, nil], [1000, nil], [1000, nil]]
+```
+**Changing the value of the first element in the first nested array, causes the first element to change in all three nested arrays! This same behavior will happen with strings, hashes, or any other mutable objects.**
+
+```rb
+immutable = Array.new(3) { Array.new(2) }
+#=> [[nil, nil], [nil, nil], [nil, nil]]
+immutable[0][0] = 1000
+#=> 1000
+immutable
+#=> [[1000, nil], [nil, nil], [nil, nil]]
+```
+
+## adding removing
+```rb
+test_scores << [100, 99, 98, 97]
+#=> [[97, 76, 79, 93], [79, 84, 76, 79], [88, 67, 64, 76], [94, 55, 67, 81], [100, 99, 98, 97]]
+test_scores[0].push(100)
+#=> [97, 76, 79, 93, 100]
+test_scores.pop
+#=> [100, 99, 98, 97]
+```
+
+## Iterating over a nested array
+
+```rb
+teacher_mailboxes.each_with_index do |row, row_index|
+  row.each_with_index do |teacher, column_index|
+    puts "Row:#{row_index} Column:#{column_index} = #{teacher}"
+  end
+end
+```
+## flatten
+**Returns a new array that is a one-dimensional flattening of self (recursively).**
+**That is, for every element that is an array, extract its elements into the new array.**
+**The optional level argument determines the level of recursion to flatten.**
+
+```rb
+teacher_mailboxes.flatten.each do |teacher|
+  puts "#{teacher} is amazing!"
+end
+```
+```rb
+s = [ 1, 2, 3 ]           #=> [1, 2, 3]
+t = [ 4, 5, 6, [7, 8] ]   #=> [4, 5, 6, [7, 8]]
+a = [ s, t, 9, 10 ]       #=> [[1, 2, 3], [4, 5, 6, [7, 8]], 9, 10]
+a.flatten                 #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a = [ 1, 2, [3, [4, 5] ] ]
+a.flatten(1)              #=> [1, 2, 3, [4, 5]]
+```
