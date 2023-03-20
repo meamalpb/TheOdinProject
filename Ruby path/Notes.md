@@ -583,3 +583,94 @@ puts whisper.downcase! #=> "hello everybody"
 puts whisper #=> "hello everybody"
 #now when ! is added it is overwritten
 ```
+
+# Debugging
+**In Ruby, errors are also objects.**
+
+## Debugging with puts
+**Using puts is a great way to debug, but there’s a HUGE caveat with using it: calling puts on anything that is nil or an empty string or collection will just print a blank line to your terminal.**
+
+**This is one instance where using p will yield more information. As mentioned above, p is a combination of puts and #inspect, the latter of which essentially prints a string representation of whatever it’s called on**
+
+```rb
+puts "Using puts:"
+puts []
+p "Using p:"
+p []
+```
+```
+Using puts:
+"Using p:"
+[]
+```
+
+# Debugging with Pry-byebug
+**Adding a binding.pry line in our code is similar to creating a breakpoint in JavaScript.**
+```rb
+require 'pry-byebug'
+
+def yell_greeting(string)
+  name = string
+
+  binding.pry
+
+  name = name.upcase
+  greeting = "WASSAP, #{name}!"
+  puts greeting
+end
+
+yell_greeting("bob")
+```
+
+**here name is in scope. However, greeting is not in scope, because it is written after binding.pry and has not been evaluated yet.**
+
+```rb
+ruby prycheck.rb
+rb:17: warning: undefining the allocator of T_DATA class Byebug::ThreadsTable
+rb:17: warning: undefining the allocator of T_DATA class Byebug::Context
+
+prycheck.rb:8 Object#yell_greeting:
+
+     3: def yell_greeting(string)
+     4:   name = string
+     5:
+     6:   binding.pry
+     7:
+ =>  8:   name = name.upcase
+     9:   greeting = "WASSAP, #{name}!"
+    10:   puts greeting
+    11: end
+[1] pry(main)> name
+=> "bob"
+[2] pry(main)> next
+
+prycheck.rb:9 Object#yell_greeting:
+
+     3: def yell_greeting(string)
+     4:   name = string
+     5:
+     6:   binding.pry
+     7:
+     8:   name = name.upcase
+ =>  9:   greeting = "WASSAP, #{name}!"
+    10:   puts greeting
+    11: end
+[2] pry(main)> greeting
+=> nil
+[3] pry(main)> next
+
+prycheck.rb:10 Object#yell_greeting:
+
+     3: def yell_greeting(string)
+     4:   name = string
+     5:
+     6:   binding.pry
+     7:
+     8:   name = name.upcase
+     9:   greeting = "WASSAP, #{name}!"
+ => 10:   puts greeting
+    11: end
+[3] pry(main)> greeting
+=> "WASSAP, BOB!"
+```
+
