@@ -972,3 +972,26 @@ a.flatten                 #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 a = [ 1, 2, [3, [4, 5] ] ]
 a.flatten(1)              #=> [1, 2, 3, [4, 5]]
 ```
+
+## nested hashes
+
+```rb
+vehicles = {
+  alice: {year: 2019, make: "Toyota", model: "Corolla"},
+  blake: {year: 2020, make: "Volkswagen", model: "Beetle"},
+  caleb: {year: 2020, make: "Honda", model: "Accord"}
+}
+
+vehicles[:alice][:year]
+#=> 2019
+vehicles[:blake][:make]
+#=> "Volkswagen"
+vehicles[:caleb][:model]
+#=> "Accord"
+#adding
+vehicles[:dave] = {year: 2021, make: "Ford", model: "Escape"}
+#=> {:year=>2021, :make=>"Ford", :model=>"Escape"}
+#deleting
+vehicles.delete(:blake)
+#=> {:year=>2020, :make=>"Volkswagen", :model=>"Beetle"}
+```
