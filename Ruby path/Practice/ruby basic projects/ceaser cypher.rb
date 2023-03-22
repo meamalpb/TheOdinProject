@@ -3,7 +3,7 @@ def ceacypher(word,number)
     number = number.to_i
     res=""
     word.each_char{|l| 
-        
+
     #upcase
     if(l.ord.between?(65,90))
             rl = l.ord + number
@@ -33,5 +33,5 @@ def ceacypher(word,number)
 end
 
 input = gets
-number = gets
+number = gets.chomp.to_i
 ceacypher(input,number)
