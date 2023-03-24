@@ -1274,3 +1274,133 @@ class Person
   end
 end
 ```
+
+# Modules
+### used as toolboxes
+### we can put contants inside methods with full cap variables
+```rb
+def Math
+  PI = 3.12
+end
+#Accessing
+puts Math::PI
+```
+
+
+### some are already present in the interpreter like Math module others require 'require keyword'
+```rb
+
+require 'date'
+puts Date.today
+```
+
+## Including modules into class
+### We can include modules in classes as shown in code below
+```rb
+class Angle
+  include Math
+  attr_accessor :radians
+
+  def initialize(radians)
+    @radians = radians
+  end
+
+  def cosine
+    cos(@radians)
+  end
+end
+
+acute = Angle.new(1)
+acute.cosine
+```
+
+# Mixins
+### In a previous lesson we learnt that ruby does not allow multiple inheritance and this can be done using mixins
+### Mixins essentially signifies using same module in different classes as to form a multiple inheritance like situation
+
+```rb
+module Action
+  def jump
+    @distance = rand(4) + 2
+    puts "I jumped forward #{@distance} feet!"
+  end
+end
+
+class Rabbit
+  include Action
+  attr_reader :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Cricket
+  include Action
+  attr_reader :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+peter = Rabbit.new("Peter")
+jiminy = Cricket.new("Jiminy")
+
+peter.jump
+jiminy.jump
+```
+## Extend Keyword
+### Whereas include mixes a module’s methods in at the instance level (allowing instances of a particular class to use the methods), the extend keyword mixes a module’s methods at the class level. This means that class itself can use the methods, as opposed to instances of the class.
+
+```rb
+# ThePresent has a .now method that we'll extend to TheHereAnd
+
+module ThePresent
+  def now
+    puts "It's #{Time.new.hour > 12 ? Time.new.hour - 12 : Time.new.hour}:#{Time.new.min} #{Time.new.hour > 12 ? 'PM' : 'AM'} (GMT)."
+  end
+end
+
+class TheHereAnd
+  extend ThePresent
+end
+
+TheHereAnd.now
+```
+
+### simple banking example to study ruby classes
+
+```rb
+class Account
+  attr_reader :name , :balance
+  def initialize(name,balance = 100)
+    @name = name
+    @balance = balance
+    end
+    private
+      def pin
+        @pin = 1234
+      end
+    def pin_error
+      "Access denied: incorrect PIN."
+    end
+    public
+    def display_balance(pin_number)
+      if(pin_number==@pin)
+        puts "Balance: $#{@balance}."
+      else
+        puts pin_error
+      end
+      end
+    def withdraw(pin_number,amount)
+      if(pin_number==@pin)
+        @balance-=amount
+        puts "Withdrew #{amount}. New balance: $#{@balance}."
+      else
+          puts pin_error
+      end
+    end
+  end
+
+  checking_account = Account.new("ama",100_000)
+  ```
+
