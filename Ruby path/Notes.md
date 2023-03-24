@@ -1056,8 +1056,8 @@ puts "Files: #{Computer.display_files}"
 # @@files belongs to the Computer class.
 ```
 
-## other example
-
+##  class variables
+**class varibles are those variables which are constant in a class and not vary from instance to instance**
 ```rb
 class Person
   # Set your class variable to 0 on line 3
@@ -1081,3 +1081,145 @@ dhh = Person.new("David")
 puts "Number of Person instances: #{Person.number_of_instances}"
 ```
 
+## Inheritance
+**SuperBadError class  inherits from ApplicationError**
+```rb
+class ApplicationError
+  def display_error
+    puts "Error! Error!"
+  end
+end
+
+class SuperBadError < ApplicationError
+end
+
+err = SuperBadError.new
+err.display_error
+```
+
+```
+Error! Error!
+```
+
+# function overriding
+```rb
+class Creature
+  def initialize(name)
+    @name = name
+  end
+  
+  def fight
+    return "Punch to the chops!"
+  end
+end
+
+# Add your code below!
+class Dragon < Creature
+  def fight
+    return "Breathes fire!"
+  end
+end
+```
+**Accessing methods or attributes of superclass**
+```rb
+class DerivedClass < Base
+  def some_method
+    super(optional args)
+      # Some stuff
+    end
+  end
+end
+```
+
+**Ruby does not support multiple inheritance.However, there are instances where you want to incorporate data or behavior from several classes into a single class, and Ruby allows this through the use of mixins.**
+```rb
+class Creature
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Person
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Dragon < Creature; end
+class Dragon < Person; end
+```
+```
+superclass mismatch for class Dragon
+```
+
+## Class methods
+**There are mainly 2 different types of methods**
+**1.class methods**
+**2.instance methods**
+
+```rb
+class Foo
+  def self.bar
+    puts 'class method'
+  end
+  
+  def baz
+    puts 'instance method'
+  end
+end
+
+Foo.bar # => "class method"
+Foo.baz # => NoMethodError: undefined method ‘baz’ for Foo:Class
+
+Foo.new.baz # => instance method
+Foo.new.bar # => NoMethodError: undefined method ‘bar’ for #<Foo:0x1e820>
+```
+
+**Another example**
+```rb
+class Computer
+  @@users = {}
+  def initialize(username, password)
+    @username = username
+    @password = password
+    @@users[username] = password
+    @files = {}
+  end
+  def create(filename)
+    @time = Time.now
+    @files[filename]=@time
+    puts "New file created"
+    end
+  def Computer.get_users
+    @@users
+  end
+end
+
+my_computer = Computer.new("username","password")
+```
+## Public and Private methods
+```rb
+class Person
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  public    # This method can be called from outside the class.
+  
+  def about_me
+    puts "I'm #{@name} and I'm #{@age} years old!"
+  end
+  
+  private   # This method can't!
+  
+  def bank_account_number
+    @account_number = 12345
+    puts "My bank account number is #{@account_number}."
+  end
+end
+
+eric = Person.new("Eric", 26)
+eric.about_me
+eric.bank_account_number
+```
