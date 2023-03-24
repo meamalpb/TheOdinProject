@@ -10,7 +10,7 @@
 
 ```
 
-  
+
 
 **It’s important to keep in mind that when doing arithmetic with two integers in Ruby, the result will always be an integer.**
 
@@ -87,8 +87,8 @@ nil.to_s      #=> ""
 chomp(separator=$/) → new_str
 ```
 ```rb
-#Returns a new String with the given record separator removed from the end of str (if present). 
-#If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return #characters (that is it will remove \n, \r, and \r\n). 
+#Returns a new String with the given record separator removed from the end of str (if present).
+#If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return #characters (that is it will remove \n, \r, and \r\n).
 #If $/ is an empty string, it will remove all trailing newlines from the string.
 
 "hello".chomp                #=> "hello"
@@ -222,7 +222,7 @@ else
 end
 ```
 
-## eql? 
+## eql?
 **checks both the value type and the actual value it holds.**
 ```rb
 
@@ -463,7 +463,7 @@ shoes["summer"] = "flip-flops"
 ```
 ## removing
 ```rb
-shoes.delete("summer") 
+shoes.delete("summer")
 ```
 ## getting keys and values list
 ```rb
@@ -1003,7 +1003,7 @@ class Language
     @name = name
     @creator = creator
   end
-	
+
   def description
     puts "I'm #{@name} and I was created by #{@creator}!"
   end
@@ -1028,16 +1028,16 @@ I'm JavaScript and I was created by Brendan Eich!
 class Computer
   $manufacturer = "Mango Computer, Inc."
   @@files = {hello: "Hello, world!"}
-  
+
   def initialize(username, password)
     @username = username
     @password = password
   end
-  
+
   def current_user
     @username
   end
-  
+
   def self.display_files
     @@files
   end
@@ -1062,13 +1062,13 @@ puts "Files: #{Computer.display_files}"
 class Person
   # Set your class variable to 0 on line 3
   @@people_count = 0
-  
+
   def initialize(name)
     @name = name
     # Increment your class variable on line 8
     @@people_count+=1
   end
-  
+
   def self.number_of_instances
     # Return your class variable on line 13
     @@people_count
@@ -1107,7 +1107,7 @@ class Creature
   def initialize(name)
     @name = name
   end
-  
+
   def fight
     return "Punch to the chops!"
   end
@@ -1162,7 +1162,7 @@ class Foo
   def self.bar
     puts 'class method'
   end
-  
+
   def baz
     puts 'instance method'
   end
@@ -1204,15 +1204,15 @@ class Person
     @name = name
     @age = age
   end
-  
+
   public    # This method can be called from outside the class.
-  
+
   def about_me
     puts "I'm #{@name} and I'm #{@age} years old!"
   end
-  
+
   private   # This method can't!
-  
+
   def bank_account_number
     @account_number = 12345
     puts "My bank account number is #{@account_number}."
@@ -1222,4 +1222,55 @@ end
 eric = Person.new("Eric", 26)
 eric.about_me
 eric.bank_account_number
+```
+
+## attr_reader, attr_writer and attr_accessor
+
+**Essesntially works as getter and setters**
+
+```rb
+class Person
+  attr_reader :name
+  attr_writer :name
+  def initialize(name)
+    @name = name
+  end
+end
+```
+
+**The above code with attr_reader, attr_writer automatically has below 2 methods**
+```rb
+def name
+  @name
+end
+
+def name=(value)
+  @name = value
+end
+```
+
+### attr_accessor acts as a way to do both getter and setter in one
+```rb
+class Person
+  attr_reader :name
+  attr_accessor :job
+
+  def initialize(name, job)
+    @name = name
+    @job = job
+  end
+end
+```
+```rb
+#same code without attr_accessor
+class Person
+  attr_reader :name
+  attr_reader :job
+  attr_writer :job
+
+  def initialize(name, job)
+    @name = name
+    @job = job
+  end
+end
 ```
