@@ -142,71 +142,7 @@ Enter a value :
 This is entered value
 This is entered value
  ```
-# Files
 
-## File.new
-**create a File object using File.new method for reading, writing, or both, according to the mode string. Finally, you can use File.close method to close that file.**
- ```rb
-aFile = File.new("filename", "mode")
-   # ... process the file
-aFile.close
- ```
-
-## File.open
-**You can use File.open method to create a new file object and assign that file object to a file.**
- ```rb
-File.open("filename", "mode") do |aFile|
-   # ... process the file
-end
- ```
-
-## sysread
-**This statement will output the first 20 characters of the file. The file pointer will now be placed at the 21st character in the file.**
- ```rb
-aFile = File.new("input.txt", "r")
-if aFile
-   content = aFile.sysread(20)
-   puts content
-else
-   puts "Unable to open file!"
-end
- ```
-
-## syswrite
-**statement will write "ABCDEF" into the file.**
- ```rb
-aFile = File.new("input.txt", "r+")
-if aFile
-   aFile.syswrite("ABCDEF")
-else
-   puts "Unable to open file!"
-end
- ```
-
-## IO.readlines
-**In this code, the variable arr is an array. Each line of the file input.txt will be an element in the array arr. Therefore, arr[0] will contain the first line, whereas arr[1] will contain the second line of the file.**
- ```rb
-arr = IO.readlines("input.txt")
-puts arr[0]
-puts arr[1]
- ```
-
-# Directories
-
-## chdir
-**To change directory within a Ruby program, use Dir.chdir as follows. This example changes the current directory to /usr/bin.**
-```rb
-Dir.chdir("/usr/bin")
-```
-
-## pwd
-**puts Dir.pwd # This will return something like /usr/bin**
-
-## entries
-**You can get a list of the files and directories within a specific directory using Dir.entries**
-```rb
-puts Dir.entries("/usr/bin").join(' ')
-```
 ## Conditionals
 
 **Basic example**
@@ -1404,3 +1340,90 @@ class Account
   checking_account = Account.new("ama",100_000)
   ```
 
+
+# Files
+
+## File.new
+**create a File object using File.new method for reading, writing, or both, according to the mode string. Finally, you can use File.close method to close that file.**
+ ```rb
+aFile = File.new("filename", "mode")
+   # ... process the file
+aFile.close
+ ```
+
+## File.open
+**You can use File.open method to create a new file object and assign that file object to a file.**
+ ```rb
+File.open("filename", "mode") do |aFile|
+   # ... process the file
+end
+ ```
+
+## sysread
+**This statement will output the first 20 characters of the file. The file pointer will now be placed at the 21st character in the file.**
+ ```rb
+aFile = File.new("input.txt", "r")
+if aFile
+   content = aFile.sysread(20)
+   puts content
+else
+   puts "Unable to open file!"
+end
+ ```
+
+## syswrite
+**statement will write "ABCDEF" into the file.**
+ ```rb
+aFile = File.new("input.txt", "r+")
+if aFile
+   aFile.syswrite("ABCDEF")
+else
+   puts "Unable to open file!"
+end
+ ```
+
+## IO.readlines
+**In this code, the variable arr is an array. Each line of the file input.txt will be an element in the array arr. Therefore, arr[0] will contain the first line, whereas arr[1] will contain the second line of the file.**
+ ```rb
+arr = IO.readlines("input.txt")
+puts arr[0]
+puts arr[1]
+ ```
+
+# Directories
+
+## chdir
+**To change directory within a Ruby program, use Dir.chdir as follows. This example changes the current directory to /usr/bin.**
+```rb
+Dir.chdir("/usr/bin")
+```
+
+## pwd
+**puts Dir.pwd # This will return something like /usr/bin**
+
+## entries
+**You can get a list of the files and directories within a specific directory using Dir.entries**
+```rb
+puts Dir.entries("/usr/bin").join(' ')
+```
+
+
+# Serializing (And Deserializing) Objects With Ruby
+#### Serialization is the process of converting an object or data structure into a format that can be transmitted or stored, and then reconstructing the object or data structure from that format.The primary purpose of serialization is to enable communication between different applications or systems that use different data formats or programming languages.
+### Ruby has two object serialization mechanisms built right into the language. One is used to serialize into a human readable format, the other into a binary format.
+
+```rb
+require 'yaml'
+
+# Define a Ruby object to serialize
+person = { name: "Alice", age: 30 }
+
+# Serialize the object to YAML format and store it in a string
+yaml_string = YAML.dump(person)
+puts "Serialized YAML:\n#{yaml_string}\n\n"
+
+# Deserialize the YAML string back into a Ruby object
+ruby_object = YAML.load(yaml_string)
+puts "Deserialized Ruby object:\n#{ruby_object.inspect}\n\n"
+
+```
