@@ -1,0 +1,80 @@
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateCars (20230330170032)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "cars" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "make" varchar, "model" varchar, "year" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230330170032"]]
+  [1m[36mTRANSACTION (3.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2023-03-30 17:06:28.048479"], ["updated_at", "2023-03-30 17:06:28.048479"]]
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2023-03-30 22:37:10 +0530
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering E:/Programs/Ruby32-x64/lib/ruby/gems/3.2.0/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered E:/Programs/Ruby32-x64/lib/ruby/gems/3.2.0/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 8.3ms | Allocations: 702)
+Completed 200 OK in 98ms (Views: 34.8ms | ActiveRecord: 0.0ms | Allocations: 6119)
+
+
+Started GET "/cars" for ::1 at 2023-03-30 22:38:05 +0530
+Processing by CarsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering cars/index.html.erb within layouts/application
+  [1m[36mCar Load (1.0ms)[0m  [1m[34mSELECT "cars".* FROM "cars"[0m
+  ↳ app/views/cars/index.html.erb:6
+  Rendered cars/index.html.erb within layouts/application (Duration: 14.8ms | Allocations: 1303)
+  Rendered layout layouts/application.html.erb (Duration: 1138.0ms | Allocations: 106131)
+Completed 200 OK in 1172ms (Views: 1150.0ms | ActiveRecord: 1.0ms | Allocations: 107840)
+
+
+Started GET "/cars/new" for ::1 at 2023-03-30 22:38:10 +0530
+Processing by CarsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering cars/new.html.erb within layouts/application
+  Rendered cars/_form.html.erb (Duration: 106.9ms | Allocations: 5641)
+  Rendered cars/new.html.erb within layouts/application (Duration: 113.8ms | Allocations: 5966)
+  Rendered layout layouts/application.html.erb (Duration: 134.5ms | Allocations: 8629)
+Completed 200 OK in 173ms (Views: 136.9ms | ActiveRecord: 1.5ms | Allocations: 13692)
+
+
+Started POST "/cars" for ::1 at 2023-03-30 22:38:18 +0530
+Processing by CarsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "car"=>{"make"=>"yes", "model"=>"yes", "year"=>"1092"}, "commit"=>"Create Car"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/cars_controller.rb:27:in `block in create'
+  [1m[36mCar Create (3.2ms)[0m  [1m[32mINSERT INTO "cars" ("make", "model", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["make", "yes"], ["model", "yes"], ["year", 1092], ["created_at", "2023-03-30 17:08:19.117812"], ["updated_at", "2023-03-30 17:08:19.117812"]]
+  ↳ app/controllers/cars_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (3.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/cars_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/cars/1
+Completed 302 Found in 31ms (ActiveRecord: 6.6ms | Allocations: 3716)
+
+
+Started GET "/cars/1" for ::1 at 2023-03-30 22:38:19 +0530
+Processing by CarsController#show as TURBO_STREAM
+  Parameters: {"id"=>"1"}
+  [1m[36mCar Load (0.4ms)[0m  [1m[34mSELECT "cars".* FROM "cars" WHERE "cars"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/cars_controller.rb:63:in `set_car'
+  Rendering layout layouts/application.html.erb
+  Rendering cars/show.html.erb within layouts/application
+  Rendered cars/_car.html.erb (Duration: 2.2ms | Allocations: 219)
+  Rendered cars/show.html.erb within layouts/application (Duration: 24.7ms | Allocations: 1477)
+  Rendered layout layouts/application.html.erb (Duration: 48.1ms | Allocations: 4133)
+Completed 200 OK in 70ms (Views: 51.5ms | ActiveRecord: 0.4ms | Allocations: 6796)
+
+
+Started GET "/cars" for ::1 at 2023-03-30 22:38:22 +0530
+Processing by CarsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering cars/index.html.erb within layouts/application
+  [1m[36mCar Load (0.7ms)[0m  [1m[34mSELECT "cars".* FROM "cars"[0m
+  ↳ app/views/cars/index.html.erb:6
+  Rendered cars/_car.html.erb (Duration: 0.4ms | Allocations: 21)
+  Rendered cars/index.html.erb within layouts/application (Duration: 11.8ms | Allocations: 925)
+  Rendered layout layouts/application.html.erb (Duration: 66.0ms | Allocations: 3588)
+Completed 200 OK in 81ms (Views: 69.7ms | ActiveRecord: 0.7ms | Allocations: 3878)
+
+
