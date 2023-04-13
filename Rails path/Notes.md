@@ -195,3 +195,13 @@ end
 This will provide you with URLs such as /bob/articles/1 and will allow you to reference the username part of the path as params[:username] in controllers, helpers, and views.
 
 A shortcut you’ll see plenty of times is, instead of writing `redirect_to post_path(@post.id)`, just write `redirect_to @post` because Rails knows people did that so often that they gave you the option of writing it shorthand.
+
+
+# Problem with link_to
+`link_to` is a method used instead of a tag in rails. This allows to add path not as prefix_path kind of way.
+You can also add methods with `link_to` in the following way:
+`<%= link_to 'Destroy', post, :method => :delete, :onclick => "return confirm('Are you sure you want to delete this post?')" %>`
+
+Unfortunately this does not work. Delete method for some reason doesnt work. There is a solution to do it in previous rails version but I havent found similar article for the new version yet.
+Anyway the easy thing to do is to just replace `link_to` by `button_to`.
+
