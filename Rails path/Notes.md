@@ -57,6 +57,7 @@ To play with our model a bit, we're going to use a feature of Rails called the c
 # Scaffold
 Scaffold is the easiest way to do generate a simple rest service and it literally takes just 2 commands
 Suppose you want to create a simple blog post model with a title and a body. To generate the scaffold for this model, you can use the following command:
+
 ```rb
 rails generate scaffold Post title:string body:text
 rails db:migrate
@@ -205,3 +206,41 @@ You can also add methods with `link_to` in the following way:
 Unfortunately this does not work. Delete method for some reason doesnt work. There is a solution to do it in previous rails version but I havent found similar article for the new version yet.
 Anyway the easy thing to do is to just replace `link_to` by `button_to`.
 
+# Active record basics
+Active Record is, to put it inelegantly, the gem that takes care of all the database stuff. It’s known as an “ORM”.
+
+Active Record takes data which is stored in a database table using rows and columns, which needs to be modified or retrieved by writing SQL statements (if you’re using a SQL database), and it lets you interact with that data as though it was a normal Ruby object.
+
+So if you want to get an array containing a listing of all the users, instead of writing code to initiate a connection to the database, then doing some sort of `SELECT * FROM users` query, and converting those results into an array, you can just type `User.all` and Active Record gives us that array filled with User objects that we can play with as we like
+
+## Creating a new row in db
+Active Record lets you create a Ruby object that represents a row in one of your database tables, like a User. To create a new User is a two-step process:
+```rb
+u = User.new(name: "Sven", email: "sven@theodinproject.com")
+u.save
+```
+You can also do this in 1 line
+```rb
+u = User.create(name: "Sven", email: "sven@theodinproject.com")
+```
+
+## Migrations
+After you’ve actually created the database in the first place (using $ `rails db:create`), to create that model you need to type this command :
+`the $ rails generate model YourModelNameHere `
+Following files are generated
+```rb
+  invoke  active_record
+  create    db/migrate/20131223154310_create_testmodels.rb
+  create    app/models/testmodel.rb
+  invoke    rspec
+  create      spec/models/testmodel_spec.rb
+```
+
+The model file that the generator creates is just a bare-bones model file in the `app/models` directory. The other main file is the migration file in the `db/migrate` folder, which starts with a complicated looking timestamp like `20130924230504_create_users.rb`
+
+If you want to only create the database migration file (without the Model or any of the test files), just use ` $ rails generate migration NameYourMigration`. You’ll end up using this one more once you’ve got things up and running since you’ll probably be modifying your data table instead of creating a new one
+
+A migration is basically a script that tells Rails how you want to set up or change a database.
+Migrations are just a script, so how do you tell Rails to run that script and actually execute the code to create your table and update your database’s schema? By using the `$ rails db:migrate` command, which runs any migrations that haven’t yet been run.
+
+The most immediately useful feature of migrations is when you’ve screwed something up because they’re (usually) reversible. Let’s say you just migrated to create a new database column but forgot a column to store the user’s email… oops! You can just type $ rails db:rollback and the last series of migrations that you ran will be reversed and you’re back to where you were. Then you just edit the file, rerun the migrations, and move on with your life.
