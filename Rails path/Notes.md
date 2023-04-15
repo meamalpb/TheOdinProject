@@ -2,6 +2,9 @@
 
 Rails is opinionated software. It makes the assumption that there is a "best" way to do things, and it's designed to encourage that way - and in some cases to discourage alternatives. If you learn "The Rails Way" you'll probably discover a tremendous increase in productivity. If you persist in bringing old habits from other languages to your Rails development, and trying to use patterns you learned elsewhere, you may have a less happy experience.
 
+# Creating a new rails app
+`rails new my_first_rails_app`
+
 # Main philosophy
 * Don't Repeat Yourself
 * Convention Over Configuration
@@ -53,6 +56,7 @@ Migrations are used to alter the structure of an application's database. In Rail
 
 ## Using a Model to Interact with the Database
 To play with our model a bit, we're going to use a feature of Rails called the console. The console is an interactive coding environment just like irb, but it also automatically loads Rails and our application code.
+command : `rails console`
 
 # Scaffold
 Scaffold is the easiest way to do generate a simple rest service and it literally takes just 2 commands
@@ -244,3 +248,41 @@ A migration is basically a script that tells Rails how you want to set up or cha
 Migrations are just a script, so how do you tell Rails to run that script and actually execute the code to create your table and update your database’s schema? By using the `$ rails db:migrate` command, which runs any migrations that haven’t yet been run.
 
 The most immediately useful feature of migrations is when you’ve screwed something up because they’re (usually) reversible. Let’s say you just migrated to create a new database column but forgot a column to store the user’s email… oops! You can just type $ rails db:rollback and the last series of migrations that you ran will be reversed and you’re back to where you were. Then you just edit the file, rerun the migrations, and move on with your life.
+
+## Rails DB Migration - How To Drop a Table?
+I added a table that I thought I was going to need, but now no longer plan on using it. How should I remove that table?
+Write your migration manually. E.g. `run rails g migration DropUsers`.
+
+### BAD - running rake db:migrate and then rake db:rollback will fail
+
+```rb
+class DropUsers < ActiveRecord::Migration
+  def change
+    drop_table :users
+  end
+end
+```
+
+### GOOD - reveals intent that migration should not be reversible
+```rb
+class DropUsers < ActiveRecord::Migration
+  def up
+    drop_table :users
+  end
+
+  def down
+    fail ActiveRecord::IrreversibleMigration
+  end
+end
+```
+BETTER - is actually reversible
+```rb
+class DropUsers < ActiveRecord::Migration
+  def change
+    drop_table :users do |t|
+      t.string :email, null: false
+      t.timestamps null: false
+    end
+  end
+end
+```
