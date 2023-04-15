@@ -305,4 +305,31 @@ blog>rails g controller testroute
       invoke  helper
       create    app/helpers/testroute_helper.rb
       invoke    test_unit
+blog>rails g controller testroute2 index
+      create  app/controllers/testroute2_controller.rb
+       route  get 'testroute2/index'
+      invoke  erb
+      create    app/views/testroute2
+      create    app/views/testroute2/index.html.erb
+      invoke  test_unit
+      create    test/controllers/testroute2_controller_test.rb
+      invoke  helper
+      create    app/helpers/testroute2_helper.rb
+      invoke    test_unit
+
+blog>rails g controller testroute3 index show edit
+      create  app/controllers/testroute3_controller.rb
+       route  get 'testroute3/index'
+              get 'testroute3/show'
+              get 'testroute3/edit'
+      invoke  erb
+      create    app/views/testroute3
+      create    app/views/testroute3/index.html.erb
+      create    app/views/testroute3/show.html.erb
+      create    app/views/testroute3/edit.html.erb
+      invoke  test_unit
+      create    test/controllers/testroute3_controller_test.rb
+      invoke  helper
+      create    app/helpers/testroute3_helper.rb
+      invoke    test_unit
 ```
