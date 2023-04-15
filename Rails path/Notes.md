@@ -286,3 +286,23 @@ class DropUsers < ActiveRecord::Migration
   end
 end
 ```
+# simple examples of generate statements and output
+```rb
+blog>rails g model testmodel
+      invoke  active_record
+      create    db/migrate/20230415015856_create_testmodels.rb
+      create    app/models/testmodel.rb
+      invoke    test_unit
+      create      test/models/testmodel_test.rb
+      create      test/fixtures/testmodels.yml
+
+blog>rails g controller testroute
+      create  app/controllers/testroute_controller.rb
+      invoke  erb
+      create    app/views/testroute
+      invoke  test_unit
+      create    test/controllers/testroute_controller_test.rb
+      invoke  helper
+      create    app/helpers/testroute_helper.rb
+      invoke    test_unit
+```
