@@ -207,8 +207,13 @@ A shortcut you’ll see plenty of times is, instead of writing `redirect_to post
 You can also add methods with `link_to` in the following way:
 `<%= link_to 'Destroy', post, :method => :delete, :onclick => "return confirm('Are you sure you want to delete this post?')" %>`
 
+
 Unfortunately this does not work. Delete method for some reason doesnt work. There is a solution to do it in previous rails version but I havent found similar article for the new version yet.
 Anyway the easy thing to do is to just replace `link_to` by `button_to`.
+
+After some days I found the solution to use `link_to` as well as delete method. Code below
+
+`<%= link_to "Signout", destroy_user_session_path ,'data-turbo-method': :delete %>`
 
 # Active record basics
 Active Record is, to put it inelegantly, the gem that takes care of all the database stuff. It’s known as an “ORM”.
@@ -333,3 +338,7 @@ blog>rails g controller testroute3 index show edit
       create    app/helpers/testroute3_helper.rb
       invoke    test_unit
 ```
+## how to generate a model which belongs to another model
+Consider a model issue which belongs to another model project. This is how to generate this model
+
+`rails generate model Issue Title:string Severity:string body:text project:references`
