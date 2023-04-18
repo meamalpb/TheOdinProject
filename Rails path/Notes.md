@@ -342,3 +342,83 @@ blog>rails g controller testroute3 index show edit
 Consider a model issue which belongs to another model project. This is how to generate this model
 
 `rails generate model Issue Title:string Severity:string body:text project:references`
+
+# How to quickly use devise to set  authentication for your app
+### Step 1 - Add devise to your gem file
+```rb
+bundle add devise
+rails g devise:install
+```
+
+### Step 2 - Generate you user model
+In this model, we have email,password and role you can also add other attributes like name etc
+```rb
+rails g model devise User role:integer
+#migrate your code
+rails db:migrate
+```
+### Step 3 - Test if devise works
+You can use variables like current_user to test if devise works.
+For example
+
+```rb
+<% if current_user %>
+    <p>Hello <%= current_user.email %> !</p>
+    You have successfully authenticated
+    <%= link_to "Signout", destroy_user_session_path ,'data-turbo-method': :delete %>
+<% else %>
+    Not authenticated
+    <%= link_to "Signup", new_user_registration_path %>
+    <%= link_to "Login", new_user_session_path %>
+<% end %>
+```
+Now you can map the integer value of role to actual roles using enums
+By putting the below code in `User.rb` in `model` folder
+
+```rb
+class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  enum role: [:user, :moderator , :tester , :developer , :projectLead , :admin]
+  after_initialize :set_default_role, :if => :new_record?
+  def set_default_role
+    self.role ||= :user
+  end
+end
+```
+
+Now you can use methods like `current_user.developer?` to test if current user is a developer
+Example given below
+```rb
+<h1>Pages#home</h1>
+<p>Find me in app/views/pages/home.html.erb</p>
+<% if current_user %>
+    <p>Hello <%= current_user.email %> !</p>
+    You have successfully authenticated
+        <br><br>
+    yoou are a <%= current_user.role %>
+    <% if current_user.developer? %>
+        <h1> you can see this text because of your role as a developer </h1>
+    <% end%>
+    <br><br>
+    <%= link_to "Signout", destroy_user_session_path ,'data-turbo-method': :delete %>
+<% else %>
+    Not authenticated
+    <%= link_to "Signup", new_user_registration_path %>
+    <%= link_to "Login", new_user_session_path %>
+<% end %>
+```
+
+But how does this work?
+
+When you declare an enum on a model attribute in Rails, it generates a set of instance methods on the model that allow you to interact with the attribute more easily.
+
+In the case of the role enum on the `User` model, Rails will generate several methods for each possible value of the enum. These methods include getter methods to check if the attribute is set to a particular value and setter methods to set the attribute to a particular value.
+
+In this case, the `user.moderator!` method is one of the generated setter methods that Rails creates for each enum value. When you call this method on a User instance, Rails will set the role attribute of that instance to the corresponding value of `:moderator`.
+
+Internally, Rails knows to look at the role attribute of the User model because that's where the enum is defined. The enum declaration tells Rails that the role attribute can take on six possible values, including `:moderator`. When you call user.moderator!, Rails uses this information to set the role attribute to `:moderator`.
+
+So, when you call `user.moderator!`, you're actually calling a method that Rails generates based on the role enum declaration, and this method sets the role attribute to the corresponding value of `:moderator`.
