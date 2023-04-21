@@ -422,3 +422,55 @@ In this case, the `user.moderator!` method is one of the generated setter method
 Internally, Rails knows to look at the role attribute of the User model because that's where the enum is defined. The enum declaration tells Rails that the role attribute can take on six possible values, including `:moderator`. When you call user.moderator!, Rails uses this information to set the role attribute to `:moderator`.
 
 So, when you call `user.moderator!`, you're actually calling a method that Rails generates based on the role enum declaration, and this method sets the role attribute to the corresponding value of `:moderator`.
+
+## How to add a new attribute to your devise user model
+
+Make a new migration like below
+
+```rb
+rails generate migration AddNameToUsers name:string
+rails db:migrate
+```
+This will apply the changes defined in the migration file to the database and add the new name column to the users table.
+
+Now we should add this field to the devise views
+First generate views if they dont exist or are not shown in your app
+
+```rb
+rails generate devise:views
+```
+then add a field like this in registrations new.html.erb
+```rb
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+```
+
+After this paste the following code into your applications_controller
+
+```rb
+
+protected
+
+  def configure_permitted_parameters
+
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+
+  end
+```
+This is to permit name variable while doing new registration operation
+
+# Delete children rows when parent row is deleted
+
+Not stating correctly but imagine you have a parent model and children model
+When parent is deleted so should the children
+if u only use belongs_to and has many ,
+When you delete a parent ,it shows an error
+
+How to fix this
+```rb
+class Parent < ApplicationRecord
+  has_many :children, dependent: :destroy
+end
+```
