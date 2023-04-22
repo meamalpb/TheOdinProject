@@ -52,7 +52,7 @@ bower.json
 
 # Ignore node_modules
 node_modules/
-
+Rails path/my_first_rails_app/tmp/
 # Ignore precompiled javascript packs
 /public/packs
 /public/packs-test
