@@ -450,6 +450,7 @@ then add a field like this in registrations new.html.erb
 After this paste the following code into your applications_controller
 
 ```rb
+before_action :configure_permitted_parameters, if: :devise_controller?
 
 protected
 

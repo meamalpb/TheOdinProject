@@ -52,6 +52,8 @@ bower.json
 
 # Ignore node_modules
 node_modules/
+
+#ignore rails tmp folder
 Rails path/my_first_rails_app/tmp/
 Rails path/micro-reddit-assignment/tmp/
 # Ignore precompiled javascript packs
