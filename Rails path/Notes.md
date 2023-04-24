@@ -475,3 +475,35 @@ class Parent < ApplicationRecord
   has_many :children, dependent: :destroy
 end
 ```
+
+# How to authenticate route using devise
+Put below code in application_controller file
+
+```rb
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!, unless: :public_page?
+
+  def public_page?
+    request.path == root_path
+  end
+end
+
+```
+
+`before_action :authenticate_user!` makes it such that if user is not authenticated the routes goes to signup route.
+```rb
+before_action :authenticate_user!, unless: :public_page?
+
+  def public_page?
+    request.path == root_path
+  end
+```
+
+`unless: :public_page?` and the function below is used to allow the site to be loaded if the requested_path is root.
+
+# view all tables on db
+```rb
+ActiveRecord::Base.connection.tables
+```
+
+
